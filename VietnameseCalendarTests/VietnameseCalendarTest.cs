@@ -1,7 +1,10 @@
 ﻿using NUnit.Framework;
+using System;
+using System.Diagnostics;
+using System.Globalization;
 using System.Text;
 
-namespace System.Globalization
+namespace VietnameseCalendarTests
 {
     [TestFixture()]
     public class VietnameseCalendarTest
@@ -17,30 +20,30 @@ namespace System.Globalization
         [Test()]
         public void TwoDigitYearMax()
         {
-            //Console.WriteLine(DateTime.Today.ToString("yyyyMMddTHHmmssZ"));
-            //Console.WriteLine(Guid.NewGuid().ToString("N"));
+            //Debug.WriteLine(DateTime.Today.ToString("yyyyMMddTHHmmssZ"));
+            //Debug.WriteLine(Guid.NewGuid().ToString("N"));
             //
-            Console.WriteLine(":: VietnameseCalendar.GetTwoDigitYearMax(1) = {0}",
-                VietnameseCalendar.GetTwoDigitYearMax(1));
-            Assert.Equals(2029, this.vnCal.TwoDigitYearMax);
+            Debug.WriteLine(":: VietnameseCalendar.GetTwoDigitYearMax(1) = {0}",
+                this.vnCal.TwoDigitYearMax);
+            Assert.AreEqual(2049, this.vnCal.TwoDigitYearMax);
         }
 
         [Test()]
         public void FromDateTime()
         {
             DateTime date = new DateTime(2008, 9, 30); int yyyy, mm, dd;
-            this.vnCal.FromDateTime(date, out yyyy, out mm, out dd);
+            VietnameseCalendar.FromDateTime(date, out yyyy, out mm, out dd);
             // DEBUG
-            Console.WriteLine("2008/9/30 = '{0}/{1}/{2}'", yyyy, mm, dd);
+            Debug.WriteLine("2008/9/30 = '{0}/{1}/{2}'", yyyy, mm, dd);
             //
-            Assert.Equals("Mậu Tý", this.vnCal.GetYearName(yyyy));
-            Assert.Equals(9, mm); Assert.Equals(2, dd);
-            Assert.Equals("Nhâm Tuất", this.vnCal.GetMonthName(yyyy, mm));
-            Assert.Equals("Quý Dậu", this.vnCal.GetDayName(date));
-            Assert.Equals("Nhâm Tý", this.vnCal.GetHourZeroName(date));
-            Assert.Equals("Thu phân", this.vnCal.GetMinorSolarTerms(date));
-            Assert.Equals("Tý (23-1), Dần (3-5), Mão (5-7), Ngọ (11-13), Mùi (13-15), Dậu (17-19)",
-                this.vnCal.GetPropitiousHour(date));
+            Assert.AreEqual("Mậu Tý", VietnameseCalendar.GetYearName(yyyy));
+            Assert.AreEqual(9, mm); Assert.AreEqual(2, dd);
+            Assert.AreEqual("Nhâm Tuất", VietnameseCalendar.GetMonthName(yyyy, mm));
+            Assert.AreEqual("Quý Dậu", VietnameseCalendar.GetDayName(date));
+            Assert.AreEqual("Nhâm Tý", VietnameseCalendar.GetHourZeroName(date));
+            Assert.AreEqual("Thu phân", VietnameseCalendar.GetMinorSolarTerms(date));
+            Assert.AreEqual("Tý (23-1), Dần (3-5), Mão (5-7), Ngọ (11-13), Mùi (13-15), Dậu (17-19)",
+                VietnameseCalendar.GetPropitiousHour(date));
         }
 
         [Test()]
@@ -48,49 +51,49 @@ namespace System.Globalization
         {
             DateTime date = new DateTime(2008, 9, 1, this.vnCal);
             // DEBUG
-            Console.WriteLine("Mậu Tý/9/1 = '{0}'", date);
+            Debug.WriteLine("Mậu Tý/9/1 = '{0}'", date);
             //
-            Assert.Equals(2008, date.Year); Assert.Equals(9, date.Month); Assert.Equals(29, date.Day);
+            Assert.AreEqual(2008, date.Year); Assert.AreEqual(9, date.Month); Assert.AreEqual(29, date.Day);
         }
 
         [Test()]
         public void CheckLeapYear2006()
         {
             // DEBUG
-            Console.WriteLine("Year 2006 IsLeap = {0}", this.vnCal.GetLeapMonth(2006, 0));
+            Debug.WriteLine("Year 2006 IsLeap = {0}", this.vnCal.GetLeapMonth(2006, 0));
             DateTime date = new DateTime(2006, 1, 1, this.vnCal);   // tet am lich
-            Assert.Equals(2006, date.Year); Assert.Equals(1, date.Month); Assert.Equals(29, date.Day);
+            Assert.AreEqual(2006, date.Year); Assert.AreEqual(1, date.Month); Assert.AreEqual(29, date.Day);
             //
             DateTime date2 = date.AddDays(-28);
-            Assert.Equals("Ất Dậu", this.vnCal.GetYearName(this.vnCal.GetYear(date2)));
-            Assert.Equals(12, this.vnCal.GetMonth(date2));
-            Assert.Equals(2, this.vnCal.GetDayOfMonth(date2));
+            Assert.AreEqual("Ất Dậu", VietnameseCalendar.GetYearName(this.vnCal.GetYear(date2)));
+            Assert.AreEqual(12, this.vnCal.GetMonth(date2));
+            Assert.AreEqual(2, this.vnCal.GetDayOfMonth(date2));
 
             //
             date = new DateTime(2006, 8, 1, this.vnCal);    // thang nhuan
-            Assert.Equals("Bính Tuất", this.vnCal.GetYearName(2006)); Assert.Equals(2006, date.Year);
-            Assert.Equals(8, date.Month); Assert.Equals(24, date.Day);
-            Assert.Equals("Bính Thân (nhuận)", this.vnCal.GetMonthName(2006, 8));
+            Assert.AreEqual("Bính Tuất", VietnameseCalendar.GetYearName(2006)); Assert.AreEqual(2006, date.Year);
+            Assert.AreEqual(8, date.Month); Assert.AreEqual(24, date.Day);
+            Assert.AreEqual("Bính Thân (nhuận)", VietnameseCalendar.GetMonthName(2006, 8));
             //
             date2 = date.AddDays(-30);
-            Assert.Equals(7, date2.Month); Assert.Equals(7, this.vnCal.GetMonth(date2));
-            Assert.Equals(25, date2.Day); Assert.Equals(1, this.vnCal.GetDayOfMonth(date2));
+            Assert.AreEqual(7, date2.Month); Assert.AreEqual(7, this.vnCal.GetMonth(date2));
+            Assert.AreEqual(25, date2.Day); Assert.AreEqual(1, this.vnCal.GetDayOfMonth(date2));
             //
-            Assert.Equals("Bính Thân", this.vnCal.GetMonthName(2006, 7));
-            Assert.Equals("Ất Mão", this.vnCal.GetDayName(date2));
-            Assert.Equals("Bính Tý", this.vnCal.GetHourZeroName(date2));
-            Assert.Equals("Đại thử", this.vnCal.GetMinorSolarTerms(date2));
-            Assert.Equals("Tý (23-1), Dần (3-5), Mão (5-7), Ngọ (11-13), Mùi (13-15), Dậu (17-19)",
-                this.vnCal.GetPropitiousHour(date2));
+            Assert.AreEqual("Bính Thân", VietnameseCalendar.GetMonthName(2006, 7));
+            Assert.AreEqual("Ất Mão", VietnameseCalendar.GetDayName(date2));
+            Assert.AreEqual("Bính Tý", VietnameseCalendar.GetHourZeroName(date2));
+            Assert.AreEqual("Đại thử", VietnameseCalendar.GetMinorSolarTerms(date2));
+            Assert.AreEqual("Tý (23-1), Dần (3-5), Mão (5-7), Ngọ (11-13), Mùi (13-15), Dậu (17-19)",
+                VietnameseCalendar.GetPropitiousHour(date2));
 
             //
             date2 = new DateTime(2006, 13, 1, this.vnCal);  // cuoi nam luon
-            Assert.Equals(2007, date2.Year);
-            Assert.Equals(1, date2.Month); Assert.Equals(19, date2.Day);
+            Assert.AreEqual(2007, date2.Year);
+            Assert.AreEqual(1, date2.Month); Assert.AreEqual(19, date2.Day);
             //
-            Assert.Equals("Tân Sửu", this.vnCal.GetMonthName(2006, 13));
-            Assert.Equals("Quý Sửu", this.vnCal.GetDayName(date2));
-            Assert.Equals("Tiểu hàn", this.vnCal.GetMinorSolarTerms(date2));
+            Assert.AreEqual("Tân Sửu", VietnameseCalendar.GetMonthName(2006, 13));
+            Assert.AreEqual("Quý Sửu", VietnameseCalendar.GetDayName(date2));
+            Assert.AreEqual("Tiểu hàn", VietnameseCalendar.GetMinorSolarTerms(date2));
         }
 
         /// <summary>
@@ -112,26 +115,26 @@ namespace System.Globalization
             // all months in the current year
             while (date.Year <= cy)
             {
-                this.vnCal.FromDateTime(date, out yyyy, out mm, out dd);
+                VietnameseCalendar.FromDateTime(date, out yyyy, out mm, out dd);
                 lm = this.vnCal.GetLeapMonth(yyyy, 0);
                 // DEBUG
-                //Console.WriteLine("Converting {0} to {1}/{2}/{3}", date.ToShortDateString(), yyyy, mm, dd);
+                //Debug.WriteLine("Converting {0} to {1}/{2}/{3}", date.ToShortDateString(), yyyy, mm, dd);
 
                 // append to the iCalendar
                 CreateEvent(buff, date, 1, false, "Vietnamese Lunar Calendar",
                     string.Format("ÂL {0}/{1}{2}", dd,
                     ((lm > 0 && mm >= lm) ? mm - 1 : mm), ((lm > 0 && lm == mm) ? " nhuận" : "")),
                     string.Format("Ngày {0} tháng {1}{2} năm {3}\\nTiết: {4}\\nGiờ HĐ: {5}",
-                    this.vnCal.GetDayName(date), this.vnCal.GetMonthName(yyyy, mm),
-                    ((lm > 0 && lm == mm) ? " nhuận" : ""), this.vnCal.GetYearName(yyyy),
-                    this.vnCal.GetMinorSolarTerms(date), this.vnCal.GetPropitiousHour(date)));
+                    VietnameseCalendar.GetDayName(date), VietnameseCalendar.GetMonthName(yyyy, mm),
+                    ((lm > 0 && lm == mm) ? " nhuận" : ""), VietnameseCalendar.GetYearName(yyyy),
+                    VietnameseCalendar.GetMinorSolarTerms(date), VietnameseCalendar.GetPropitiousHour(date)));
 
                 date = date.AddDays(1); // loop to next year
             }
             buff.AppendLine("END:VCALENDAR");
 
             // dump
-            Console.Write(buff);
+            Debug.Write(buff);
         }
 
         /// <summary>
@@ -154,11 +157,11 @@ namespace System.Globalization
             // all months in the current year
             while (date.Year <= cy)
             {
-                this.vnCal.FromDateTime(date, out yyyy, out mm, out dd);
+                VietnameseCalendar.FromDateTime(date, out yyyy, out mm, out dd);
                 lm = this.vnCal.GetLeapMonth(yyyy, 0);
                 isLM = (lm > 0 && mm == lm); if (lm > 0 && mm >= lm) mm--;
                 // DEBUG
-                //Console.WriteLine("Converting {0} to {1}/{2}/{3}", date.ToShortDateString(), yyyy, mm, dd);
+                //Debug.WriteLine("Converting {0} to {1}/{2}/{3}", date.ToShortDateString(), yyyy, mm, dd);
 
                 // append to the iCalendar
                 if (date.Month == 1 && date.Day == 1)   // Tết Dương Lịch
@@ -168,7 +171,7 @@ namespace System.Globalization
                 if (mm == 1 && dd == 1 && !isLM)        // Tết Nguyên Đán
                 {
                     CreateEvent(buff, date.AddDays(-1), 4, true, "Vietnam Public Holidays",
-                        "Tết Nguyên Đán", "Tết cổ truyền của dân tộc\\nNăm " + this.vnCal.GetYearName(yyyy));
+                        "Tết Nguyên Đán", "Tết cổ truyền của dân tộc\\nNăm " + VietnameseCalendar.GetYearName(yyyy));
                 }
                 if (mm == 3 && dd == 10 && !isLM)       // Giỗ tổ Hùng Vương
                 {
@@ -363,7 +366,7 @@ namespace System.Globalization
             buff.AppendLine("END:VCALENDAR");
 
             // dump
-            Console.Write(buff);
+            Debug.Write(buff);
         }
 
         private static void CreateEvent(StringBuilder buff, DateTime start, int duration,
@@ -408,10 +411,10 @@ namespace System.Globalization
             // all months in the current year
             while (date.Year <= cy)
             {
-                this.vnCal.FromDateTime(date, out yyyy, out mm, out dd);
+                VietnameseCalendar.FromDateTime(date, out yyyy, out mm, out dd);
                 lm = this.vnCal.GetLeapMonth(yyyy, 0);
                 // DEBUG
-                //Console.WriteLine("Converting {0} to {1}/{2}/{3}", date.ToShortDateString(), yyyy, mm, dd);
+                //Debug.WriteLine("Converting {0} to {1}/{2}/{3}", date.ToShortDateString(), yyyy, mm, dd);
 
                 if ((dd == 1 || dd == 15) && mm != 1)
                 {
@@ -420,7 +423,7 @@ namespace System.Globalization
                         string.Format("{0} tháng {1}{2}", (dd == 1 ? "Mùng 1" : "Rằm"),
                         ((lm > 0 && mm >= lm) ? mm - 1 : mm),
                         ((lm > 0 && mm == lm) ? " nhuận" : string.Empty)),
-                        "Năm " + this.vnCal.GetYearName(yyyy));
+                        "Năm " + VietnameseCalendar.GetYearName(yyyy));
                 }
 
                 date = date.AddDays(1); // loop to next year
@@ -428,7 +431,7 @@ namespace System.Globalization
             buff.AppendLine("END:VCALENDAR");
 
             // dump
-            Console.Write(buff);
+            Debug.Write(buff);
         }
-    }//
+    }
 }

@@ -3,6 +3,7 @@
 + .NET Framework 4.8
 + Class Library (C#)
 + Console Application (C#)
++ NUnit Test Project
 + NUnit 3
 + NUnit 3 Test Adapter
 + Vietnamese Calendar
@@ -12,6 +13,15 @@
 ## NUnit
 
 https://docs.nunit.org/index.html
+
+## NUnit 3 tests
+
+See documentation : https://github.com/nunit/docs/wiki/NUnit-Documentation
+
+
+### NUnit VS Templates
+
+https://marketplace.visualstudio.com/items?itemName=NUnitDevelopers.NUnitTemplatesforVisualStudio
 
 ### NUnit 3 Test Adapter (Visual Studio 2012, 2013, 2015, 2017, 2019)
 
