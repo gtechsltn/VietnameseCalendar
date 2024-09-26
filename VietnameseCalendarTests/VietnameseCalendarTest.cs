@@ -22,63 +22,66 @@ namespace VietnameseCalendarTests
         {
             //Debug.WriteLine(DateTime.Today.ToString("yyyyMMddTHHmmssZ"));
             //Debug.WriteLine(Guid.NewGuid().ToString("N"));
-            //
-            Debug.WriteLine(":: VietnameseCalendar.GetTwoDigitYearMax(1) = {0}",
-                this.vnCal.TwoDigitYearMax);
+            Debug.WriteLine(":: VietnameseCalendar.GetTwoDigitYearMax(1) = {0}", this.vnCal.TwoDigitYearMax);
             Assert.AreEqual(2049, this.vnCal.TwoDigitYearMax);
         }
 
         [Test()]
         public void FromDateTime()
         {
-            DateTime date = new DateTime(2008, 9, 30); int yyyy, mm, dd;
+            int yyyy, mm, dd;
+            DateTime date = new DateTime(2008, 9, 30);
             VietnameseCalendar.FromDateTime(date, out yyyy, out mm, out dd);
-            // DEBUG
+
             Debug.WriteLine("2008/9/30 = '{0}/{1}/{2}'", yyyy, mm, dd);
-            //
             Assert.AreEqual("Mậu Tý", VietnameseCalendar.GetYearName(yyyy));
-            Assert.AreEqual(9, mm); Assert.AreEqual(2, dd);
+            Assert.AreEqual(9, mm);
+            Assert.AreEqual(2, dd);
+
             Assert.AreEqual("Nhâm Tuất", VietnameseCalendar.GetMonthName(yyyy, mm));
             Assert.AreEqual("Quý Dậu", VietnameseCalendar.GetDayName(date));
             Assert.AreEqual("Nhâm Tý", VietnameseCalendar.GetHourZeroName(date));
             Assert.AreEqual("Thu phân", VietnameseCalendar.GetMinorSolarTerms(date));
-            Assert.AreEqual("Tý (23-1), Dần (3-5), Mão (5-7), Ngọ (11-13), Mùi (13-15), Dậu (17-19)",
-                VietnameseCalendar.GetPropitiousHour(date));
+            Assert.AreEqual("Tý (23-1), Dần (3-5), Mão (5-7), Ngọ (11-13), Mùi (13-15), Dậu (17-19)", VietnameseCalendar.GetPropitiousHour(date));
         }
 
         [Test()]
         public void ToDateTime()
         {
             DateTime date = new DateTime(2008, 9, 1, this.vnCal);
-            // DEBUG
             Debug.WriteLine("Mậu Tý/9/1 = '{0}'", date);
-            //
-            Assert.AreEqual(2008, date.Year); Assert.AreEqual(9, date.Month); Assert.AreEqual(29, date.Day);
+            Assert.AreEqual(2008, date.Year);
+            Assert.AreEqual(9, date.Month);
+            Assert.AreEqual(29, date.Day);
         }
 
         [Test()]
         public void CheckLeapYear2006()
         {
-            // DEBUG
             Debug.WriteLine("Year 2006 IsLeap = {0}", this.vnCal.GetLeapMonth(2006, 0));
             DateTime date = new DateTime(2006, 1, 1, this.vnCal);   // tet am lich
-            Assert.AreEqual(2006, date.Year); Assert.AreEqual(1, date.Month); Assert.AreEqual(29, date.Day);
-            //
+            Assert.AreEqual(2006, date.Year);
+            Assert.AreEqual(1, date.Month);
+            Assert.AreEqual(29, date.Day);
+            
             DateTime date2 = date.AddDays(-28);
             Assert.AreEqual("Ất Dậu", VietnameseCalendar.GetYearName(this.vnCal.GetYear(date2)));
             Assert.AreEqual(12, this.vnCal.GetMonth(date2));
             Assert.AreEqual(2, this.vnCal.GetDayOfMonth(date2));
 
-            //
             date = new DateTime(2006, 8, 1, this.vnCal);    // thang nhuan
-            Assert.AreEqual("Bính Tuất", VietnameseCalendar.GetYearName(2006)); Assert.AreEqual(2006, date.Year);
-            Assert.AreEqual(8, date.Month); Assert.AreEqual(24, date.Day);
+            Assert.AreEqual("Bính Tuất", VietnameseCalendar.GetYearName(2006));
+            Assert.AreEqual(2006, date.Year);
+            Assert.AreEqual(8, date.Month);
+            Assert.AreEqual(24, date.Day);
             Assert.AreEqual("Bính Thân (nhuận)", VietnameseCalendar.GetMonthName(2006, 8));
-            //
+            
             date2 = date.AddDays(-30);
-            Assert.AreEqual(7, date2.Month); Assert.AreEqual(7, this.vnCal.GetMonth(date2));
-            Assert.AreEqual(25, date2.Day); Assert.AreEqual(1, this.vnCal.GetDayOfMonth(date2));
-            //
+            Assert.AreEqual(7, date2.Month);
+            Assert.AreEqual(7, this.vnCal.GetMonth(date2));
+            Assert.AreEqual(25, date2.Day);
+            Assert.AreEqual(1, this.vnCal.GetDayOfMonth(date2));
+            
             Assert.AreEqual("Bính Thân", VietnameseCalendar.GetMonthName(2006, 7));
             Assert.AreEqual("Ất Mão", VietnameseCalendar.GetDayName(date2));
             Assert.AreEqual("Bính Tý", VietnameseCalendar.GetHourZeroName(date2));
@@ -86,11 +89,12 @@ namespace VietnameseCalendarTests
             Assert.AreEqual("Tý (23-1), Dần (3-5), Mão (5-7), Ngọ (11-13), Mùi (13-15), Dậu (17-19)",
                 VietnameseCalendar.GetPropitiousHour(date2));
 
-            //
+            
             date2 = new DateTime(2006, 13, 1, this.vnCal);  // cuoi nam luon
             Assert.AreEqual(2007, date2.Year);
-            Assert.AreEqual(1, date2.Month); Assert.AreEqual(19, date2.Day);
-            //
+            Assert.AreEqual(1, date2.Month);
+            Assert.AreEqual(19, date2.Day);
+            
             Assert.AreEqual("Tân Sửu", VietnameseCalendar.GetMonthName(2006, 13));
             Assert.AreEqual("Quý Sửu", VietnameseCalendar.GetDayName(date2));
             Assert.AreEqual("Tiểu hàn", VietnameseCalendar.GetMinorSolarTerms(date2));
@@ -117,7 +121,6 @@ namespace VietnameseCalendarTests
             {
                 VietnameseCalendar.FromDateTime(date, out yyyy, out mm, out dd);
                 lm = this.vnCal.GetLeapMonth(yyyy, 0);
-                // DEBUG
                 //Debug.WriteLine("Converting {0} to {1}/{2}/{3}", date.ToShortDateString(), yyyy, mm, dd);
 
                 // append to the iCalendar
@@ -133,7 +136,6 @@ namespace VietnameseCalendarTests
             }
             buff.AppendLine("END:VCALENDAR");
 
-            // dump
             Debug.Write(buff);
         }
 
@@ -166,206 +168,306 @@ namespace VietnameseCalendarTests
                 // append to the iCalendar
                 if (date.Month == 1 && date.Day == 1)   // Tết Dương Lịch
                 {
-                    CreateEvent(buff, date, 1, true, "Vietnam Public Holidays", "Tết dương lịch", "");
+                    CreateEvent(buff, date, 1, true, 
+                        "Vietnam Public Holidays", 
+                        "Tết dương lịch", 
+                        "");
                 }
                 if (mm == 1 && dd == 1 && !isLM)        // Tết Nguyên Đán
                 {
-                    CreateEvent(buff, date.AddDays(-1), 4, true, "Vietnam Public Holidays",
-                        "Tết Nguyên Đán", "Tết cổ truyền của dân tộc\\nNăm " + VietnameseCalendar.GetYearName(yyyy));
+                    CreateEvent(buff, date.AddDays(-1), 4, true, 
+                        "Vietnam Public Holidays", 
+                        "Tết Nguyên Đán", 
+                        "Tết cổ truyền của dân tộc\\nNăm " + VietnameseCalendar.GetYearName(yyyy));
                 }
                 if (mm == 3 && dd == 10 && !isLM)       // Giỗ tổ Hùng Vương
                 {
-                    CreateEvent(buff, date, 1, true, "Vietnam Public Holidays",
-                        "Giỗ Tổ Hùng Vương",
+                    CreateEvent(buff, date, 1, true, 
+                        "Vietnam Public Holidays", 
+                        "Giỗ Tổ Hùng Vương", 
                         "Đền Hùng, Phú Thọ\\nTưởng nhớ đến công ơn các Vua Hùng đã có công dựng nước.");
                 }
                 if (date.Month == 4 && date.Day == 30)  // Ngày giải phóng miền Nam
                 {
-                    CreateEvent(buff, date, 1, true, "Vietnam Public Holidays",
-                        "Ngày giải phóng miền Nam, thống nhất đất nước", "Kết thúc Chiến tranh Việt Nam");
+                    CreateEvent(buff, date, 1, true, 
+                        "Vietnam Public Holidays", 
+                        "Ngày giải phóng miền Nam, thống nhất đất nước", 
+                        "Kết thúc Chiến tranh Việt Nam");
                 }
                 if (date.Month == 5 && date.Day == 1)   // Quốc tế Lao động
                 {
-                    CreateEvent(buff, date, 1, true, "Vietnam Public Holidays", "Quốc tế Lao động", "");
+                    CreateEvent(buff, date, 1, true, 
+                        "Vietnam Public Holidays", 
+                        "Quốc tế Lao động", 
+                        "");
                 }
                 if (date.Month == 9 && date.Day == 2)   // Quốc khánh
                 {
-                    CreateEvent(buff, date, 1, true, "Vietnam Public Holidays",
-                        "Quốc khánh", "Kỉ niệm ngày thành lập nước CHXHCN Việt Nam");
+                    CreateEvent(buff, date, 1, true, 
+                        "Vietnam Public Holidays", 
+                        "Quốc khánh", 
+                        "Kỉ niệm ngày thành lập nước CHXHCN Việt Nam");
                 }
                 /*--------------------------------------------------------------------------------------*/
                 if (date.Month == 2 && date.Day == 3)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Holidays",
-                        "Thành lập Đảng Cộng sản Việt Nam", "");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Holidays",
+                        "Thành lập Đảng Cộng sản Việt Nam", 
+                        "");
                 }
                 if (date.Month == 2 && date.Day == 27)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Holidays", "Ngày Thầy thuốc Việt Nam", "");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Holidays", 
+                        "Ngày Thầy thuốc Việt Nam", 
+                        "");
                 }
                 if (date.Month == 3 && date.Day == 8)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Holidays", "Quốc tế Phụ nữ", "");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Holidays", 
+                        "Quốc tế Phụ nữ", 
+                        "");
                 }
                 if (date.Month == 6 && date.Day == 1)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Holidays", "Quốc tế Thiếu nhi", "");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Holidays", 
+                        "Quốc tế Thiếu nhi", 
+                        "");
                 }
                 if (date.Month == 7 && date.Day == 27)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Holidays", "Ngày Thương binh Liệt sĩ", "");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Holidays", 
+                        "Ngày Thương binh Liệt sĩ", 
+                        "");
                 }
                 if (date.Month == 10 && date.Day == 10)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Holidays", "Ngày Giải phóng Thủ đô", "");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Holidays", 
+                        "Ngày Giải phóng Thủ đô", 
+                        "");
                 }
                 if (date.Month == 10 && date.Day == 20)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Holidays", "Ngày Phụ nữ Việt Nam", "");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Holidays", 
+                        "Ngày Phụ nữ Việt Nam", 
+                        "");
                 }
                 if (date.Month == 11 && date.Day == 20)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Holidays", "Ngày Nhà giáo Việt Nam", "");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Holidays", 
+                        "Ngày Nhà giáo Việt Nam", 
+                        "");
                 }
                 if (date.Month == 12 && date.Day == 22)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Holidays",
-                        "Ngày thành lập Quân đội Nhân dân Việt Nam", "");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Holidays",
+                        "Ngày thành lập Quân đội Nhân dân Việt Nam", 
+                        "");
                 }
                 if (date.Month == 12 && date.Day == 24)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Holidays", "Lễ Giáng Sinh", "");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Holidays", 
+                        "Lễ Giáng Sinh", 
+                        "");
                 }
                 /*--------------------------------------------------------------------------------------*/
                 if (mm == 1 && dd == 15 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Holidays", "Rằm Tháng Giêng", "");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Holidays", 
+                        "Rằm Tháng Giêng", 
+                        "");
                 }
                 if (mm == 4 && dd == 14 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Holidays", "Tết Dân tộc Khmer Nam Bộ", "");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Holidays", 
+                        "Tết Dân tộc Khmer Nam Bộ", 
+                        "");
                 }
                 if (mm == 4 && dd == 15 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Holidays", "Lễ Phật Đản", "");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Holidays", 
+                        "Lễ Phật Đản", 
+                        "");
                 }
                 if (mm == 5 && dd == 5 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Holidays", "Tết Đoan Ngọ", "");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Holidays", 
+                        "Tết Đoan Ngọ", 
+                        "");
                 }
                 if (mm == 7 && dd == 15 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Holidays", "Vu Lan", "");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Holidays", 
+                        "Vu Lan", 
+                        "");
                 }
                 if (mm == 8 && dd == 1 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Holidays", "Tết Katê - Dân tộc Chăm", "");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Holidays", 
+                        "Tết Katê - Dân tộc Chăm", 
+                        "");
                 }
                 if (mm == 8 && dd == 15 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Holidays", "Tết Trung Thu", "");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Holidays", 
+                        "Tết Trung Thu", 
+                        "");
                 }
                 if (mm == 12 && dd == 23 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Holidays", "Ông Táo chầu trời", "");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Holidays", 
+                        "Ông Táo chầu trời", 
+                        "");
                 }
                 /*--------------------------------------------------------------------------------------*/
                 if (mm == 1 && dd == 4 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Culture Holidays",
-                        "Hội đền Hai Bà Trưng", "Mê Linh, Vĩnh Phúc");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Culture Holidays",
+                        "Hội đền Hai Bà Trưng", 
+                        "Mê Linh, Vĩnh Phúc");
                 }
                 if (mm == 1 && dd == 4 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Culture Holidays",
-                        "Hội Liễu Đôi", "Nam Định");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Culture Holidays",
+                        "Hội Liễu Đôi", 
+                        "Nam Định");
                 }
                 if (mm == 1 && dd == 8 && !isLM)
                 {
-                    CreateEvent(buff, date, 2, false, "Vietnam Culture Holidays",
-                        "Hội Chùa Đậu", "Thường Tín, Hà Tây");
+                    CreateEvent(buff, date, 2, false, 
+                        "Vietnam Culture Holidays",
+                        "Hội Chùa Đậu", 
+                        "Thường Tín, Hà Tây");
                 }
                 if (mm == 1 && dd == 5 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Culture Holidays",
-                        "Hội Đống Đa", "Hà Nội, Tây Sơn - Bình Định");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Culture Holidays",
+                        "Hội Đống Đa", 
+                        "Hà Nội, Tây Sơn - Bình Định");
                 }
                 if (mm == 1 && dd == 6 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Culture Holidays",
-                        "Hội Chùa Hương", "Hà Tây\\nTháng 1 - Tháng 3");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Culture Holidays",
+                        "Hội Chùa Hương", 
+                        "Hà Tây\\nTháng 1 - Tháng 3");
                 }
                 if (mm == 1 && dd == 10 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Culture Holidays",
-                        "Hội đua Voi", "Buôn Ma Thuột");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Culture Holidays",
+                        "Hội đua Voi", 
+                        "Buôn Ma Thuột");
                 }
                 if (mm == 1 && dd == 13 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Culture Holidays",
-                        "Hội Lim", "Bắc Ninh");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Culture Holidays",
+                        "Hội Lim", 
+                        "Bắc Ninh");
                 }
                 if (mm == 1 && dd == 15 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Culture Holidays",
-                        "Hội Côn Sơn", "Hải Dương");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Culture Holidays",
+                        "Hội Côn Sơn", 
+                        "Hải Dương");
                 }
                 if (mm == 1 && dd == 15 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Culture Holidays",
-                        "Hội Xuân Núi Bà", "Tây Ninh");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Culture Holidays",
+                        "Hội Xuân Núi Bà", 
+                        "Tây Ninh");
                 }
                 if (mm == 3 && dd == 6 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Culture Holidays",
-                        "Hội Chùa Tây Phương", "Thạch Thất - Hà Tây");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Culture Holidays",
+                        "Hội Chùa Tây Phương", 
+                        "Thạch Thất - Hà Tây");
                 }
                 if (mm == 3 && dd == 7 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Culture Holidays",
-                        "Hội Chùa Thầy", "Quốc Oai - Hà Tây");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Culture Holidays",
+                        "Hội Chùa Thầy", 
+                        "Quốc Oai - Hà Tây");
                 }
                 if (mm == 3 && dd == 1 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Culture Holidays",
-                        "Hội Đâm Trâu", "Buôn Ma Thuột, Đắk Lắk\\nTháng 3");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Culture Holidays",
+                        "Hội Đâm Trâu", 
+                        "Buôn Ma Thuột, Đắk Lắk\\nTháng 3");
                 }
                 if (mm == 4 && dd == 9 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Culture Holidays",
-                        "Hội Thánh Gióng", "Hà Nội");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Culture Holidays",
+                        "Hội Thánh Gióng", 
+                        "Hà Nội");
                 }
                 if (mm == 4 && dd == 26 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Culture Holidays",
-                        "Hội Bà Chúa Xứ", "Châu Đốc, An Giang");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Culture Holidays",
+                        "Hội Bà Chúa Xứ", 
+                        "Châu Đốc, An Giang");
                 }
                 if (mm == 8 && dd == 2 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Culture Holidays",
-                        "Hội Lăng Lê Văn Duyệt", "TP Hồ Chí Minh");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Culture Holidays",
+                        "Hội Lăng Lê Văn Duyệt", 
+                        "TP Hồ Chí Minh");
                 }
                 if (mm == 8 && dd == 9 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Culture Holidays",
-                        "Hội Chọi Trâu Đồ Sơn", "Hải Phòng");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Culture Holidays",
+                        "Hội Chọi Trâu Đồ Sơn", 
+                        "Hải Phòng");
                 }
                 if (mm == 8 && dd == 16 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Culture Holidays",
-                        "Hội Nghinh Ông", "Tiền Giang - Bến Tre - TP Hồ Chí Minh - Bình Thuận");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Culture Holidays",
+                        "Hội Nghinh Ông", 
+                        "Tiền Giang - Bến Tre - TP Hồ Chí Minh - Bình Thuận");
                 }
                 if (mm == 8 && dd == 20 && !isLM)
                 {
-                    CreateEvent(buff, date, 1, false, "Vietnam Culture Holidays",
-                        "Hội đền Kiếp Bạc", "Hải Dương");
+                    CreateEvent(buff, date, 1, false, 
+                        "Vietnam Culture Holidays",
+                        "Hội đền Kiếp Bạc", 
+                        "Hải Dương");
                 }
 
                 date = date.AddDays(1); // loop to next year
             }
             buff.AppendLine("END:VCALENDAR");
 
-            // dump
             Debug.Write(buff);
         }
 
@@ -430,7 +532,6 @@ namespace VietnameseCalendarTests
             }
             buff.AppendLine("END:VCALENDAR");
 
-            // dump
             Debug.Write(buff);
         }
     }
